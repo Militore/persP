@@ -1,7 +1,7 @@
 import random
 
 def start():
-    print("\nAvailable functions: start, dc (decrypt_caesar), kinc (kelvin in celcius), pwd (random password), rand (random number), stop")
+    print("\nAvailable functions: start, dc (decrypt_caesar), kinc (kelvin in celcius), pwd (random password), rand (random number), stop, exit")
     launch_func = input("What function would you like to launch? ^_`\n\n")
     if(launch_func == ""): exit()
     result = eval(launch_func+'()')
