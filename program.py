@@ -1,10 +1,14 @@
 import random
+from datetime import datetime
+import webbrowser
+from crossref.restful import Works
+import json
 
 def start():
-    print("\nAvailable functions: start, dc (decrypt_caesar), kinc (kelvin in celcius), pwd (random password), rand (random number), stop, exit")
+    print("\nAvailable functions: \nstart, \ndc (decrypt_caesar), \nkinc (kelvin in celcius), \npwd (random password), \nrand (random number), \ndoi (open doi link), \nstop, exit")
     launch_func = input("What function would you like to launch? ^_`\n\n")
     if(launch_func == ""): exit()
-    result = eval(launch_func+'()')
+    else: result = eval(launch_func+'()')
 
 def stop():
     exit()
@@ -63,8 +67,57 @@ def pwd():  #Генерация случайного пароля
         start()
 
 def rand(): #Генерация случайного числа
-	length = int(input("From 1 to..."))
-	rndn = int(random.uniform(1, length))
-	print("Number: " + str(rndn))
+    length = int(input("From 1 to..."))
+    rndn = int(random.uniform(1, length))
+    print("Number: " + str(rndn))
+    start()
+
+def doi():
+    works = Works()
+
+    doi = input("Введите дои\n")
+    final = works.doi(doi)
+    def authors(final):
+        if(final['type']=='book'):
+            authors = final['editor']
+        else:
+            authors = final['author']
+        am=0
+        i=0
+        while(i<len(authors)):
+            if('given' in authors[i]):
+                print('Автор: '+authors[i]['given']+' '+authors[i]['family'])
+                am=am+1
+                i=i+1
+            else:
+                i=i+1
+        print('Количество авторов: '+str(am))
+    print('\n')
+    authors(final)   
+    print('Название: '+''.join(final['title']))
+    print('Журнал: '+''.join(final['container-title']))
+    print('Год: '+''.join(str(final['created']['date-parts'][0][0])))
+    print('Том: ', end="")
+    if('volume' in final):
+        print(''.join(final['volume']), end="")
+    print('')
+    print('Номер: ', end="")
+    if('issue' in final): 
+        print(''.join(final['issue']), end="")
+    print('')
+    print('Страница: ', end="")
+    if('page' in final):
+        print(''.join(final['page']), end="")
+    print('')
+    print('Издатель: ', end="")
+    if('publisher' in final):
+        print(''.join(final['publisher']), end="")
+    print('')
+    if('publisher-location' in final):
+        print('Местоположение: '+''.join(final['publisher-location']))
+    print('DOI: '+''.join(final['DOI']))
+    print('Тип: '+''.join(final['type']))
+    print('\n')
+    start()
 
 start()
