@@ -3,9 +3,10 @@ from datetime import datetime
 import webbrowser
 from crossref.restful import Works
 import json
+from decimal import Decimal
 
 def start():
-    print("\nAvailable functions: \nstart, \ndc (decrypt_caesar), \nkinc (kelvin in celcius), \npwd (random password), \nrand (random number), \ndoi (open doi link), \nstop, exit")
+    print("\nAvailable functions: \nstart, \ndc (decrypt_caesar), \nkinc (kelvin in celcius), \npwd (random password), \nrand (random number), \ndoi (open doi link), \nttd (text to html decimal) \nstop, exit")
     launch_func = input("What function would you like to launch? ^_`\n\n")
     if(launch_func == ""): exit()
     else: result = eval(launch_func+'()')
@@ -119,5 +120,12 @@ def doi():
     print('Тип: '+''.join(final['type']))
     print('\n')
     start()
+
+def ttd():
+    origtext = input("Enter text to convert to html decimal: ")
+    convtext = [f'&#{ord(v)};' for v in origtext]
+    print(''.join(convtext))
+    start()
+
 
 start()
